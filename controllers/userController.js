@@ -59,14 +59,14 @@ export const loginControler = async (req, res) => {
         .status(404)
         .send({ message: "Auth faild email and password is worng" });
     }
-    const tokenGenrate = jwt.sign(
+    const jwtToken = jwt.sign(
       { email: dbUser.email },
       process.env.SECRATE_KEY,
       { expiresIn: "24hr" }
     );
 
-    console.log(tokenGenrate);
-    return res.status(201).send({ message: "login success", tokenGenrate });
+    // console.log(jwtToken)
+    return res.status(201).json({ message: "login successfully", jwtToken, email, name: dbUser.name  });
   } catch (error) {
     console.log(error.message);
   }

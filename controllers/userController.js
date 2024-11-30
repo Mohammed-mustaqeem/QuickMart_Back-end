@@ -30,12 +30,17 @@ export const userRegister = async (req, res) => {
       password: hashpassword,
       confirmPassword,
     });
+    const jwtToken = jwt.sign(
+      { email },
+      process.env.SECRATE_KEY,
+      { expiresIn: "24hr" }
+    );
 
     // save user
     const saveUser = await user.save();
     return res
       .status(201)
-      .send({ message: `user created successfully ${saveUser}` });
+      .send({ message: `user created successfully ${saveUser}` ,jwtToken , name });
   } catch (error) {
     console.log(error.message);
   }

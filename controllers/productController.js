@@ -15,7 +15,7 @@ export const CreateProduct = async (req, res) => {
         const status = await productService(req.body , imgUrl)
 
         if (status == "successfull") {
-            res.send({status : true , message : 'successfully added '})
+            res.send({status : true , message : 'successfully added   '})
         }
     }
     

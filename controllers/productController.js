@@ -2,17 +2,16 @@ import { uploadFile } from "../helpers/upload.js";
 import { productService } from "../services/productService.js";
 
 export const CreateProduct = async (req, res) => {
-  console.log("object");
+  
   try {
     if (!req.files || req.files.length === 0) {
-      res.status(400).send({ message: "No files uploaded" });
+     return res.status(400).send({ message: "No files uploaded" });
     }
     if (!req.body || Object.keys(req.body).length === 0) {
       return res
         .status(400)
         .send({ status: false, message: "Missing product details" });
     }
-    
     const productImage = await Promise.all(
       req.files.map((file) => uploadFile(file))
     );
@@ -24,8 +23,9 @@ export const CreateProduct = async (req, res) => {
     const status = await productService(req.body, imageurl);
 
     if (status == "successfull") {
-      res.send({ status: true, message: "successfully added   " });
+      return res.send({ status: true, message: "successfully added   " });
     } 
+    
   } catch (error) {
     console.log(error.message);
     if (!res.headersSent) {

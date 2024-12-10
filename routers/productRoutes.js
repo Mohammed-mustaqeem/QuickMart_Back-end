@@ -12,9 +12,9 @@ let Upload = multer({
       cb(null, Date.now() + "-" + file.originalname);
     },
   }),
-  limits: { fileSize: 500000 },
+  limits: { fileSize: 5000000 },
 });
 
-productRoute.post("/create", Upload.array("file", 1), CreateProduct);
+productRoute.post("/create", Upload.array("files", 10), CreateProduct);
 
 export default productRoute;

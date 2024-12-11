@@ -6,7 +6,7 @@ const productRoute = express.Router();
 let Upload = multer({
   storage: multer.diskStorage({
     destination: (req, file, cb) => {
-      cb(null, "uploads/");
+      cb(null, "uploads");
     },
     filename: (req, file, cb) => {
       cb(null, Date.now() + "-" + file.originalname);
@@ -15,6 +15,6 @@ let Upload = multer({
   limits: { fileSize: 5000000 },
 });
 
-productRoute.post("/create", Upload.array("files", 10), CreateProduct);
+productRoute.post("/create", Upload.array("files", 5), CreateProduct);
 
 export default productRoute;

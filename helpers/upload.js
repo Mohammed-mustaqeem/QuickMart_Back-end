@@ -8,10 +8,12 @@ cloudinary.config({
 
 export const uploadFile =async (file)=>{
     try {
-        const result = await cloudinary.uploader.upload({file})
-        console.log(result)
+        const result = await cloudinary.uploader.upload(file)
+        console.log('Image upload Successfully ',result)
         return result
     } catch (error) {
         console.log(error.message)
+        throw new Error("File Upload failed");
+        
     }
 }

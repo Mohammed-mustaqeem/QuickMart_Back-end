@@ -1,6 +1,6 @@
 import express from "express";
 import multer from "multer";
-import { CreateProduct } from "../controllers/productController.js";
+import { CreateProduct, getProductControl } from "../controllers/productController.js";
 const productRoute = express.Router();
 
 let Upload = multer({
@@ -16,5 +16,6 @@ let Upload = multer({
 });
 
 productRoute.post("/create", Upload.array("files", 5), CreateProduct);
+productRoute.get('/products',getProductControl)
 
 export default productRoute;

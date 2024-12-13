@@ -34,3 +34,23 @@ try {
     console.error("Error adding product:", error);
 }
 }
+
+export const getProductService =async ()=>{
+  try {
+    const Products = await ProductModel.find()
+    return Products;
+  
+  } catch (error) {
+    console.log(findProduct)
+  }
+}
+
+export const getProductByIdService = async (_id)=>{
+  try {
+    const product = await ProductModel.findById(_id)
+
+    return product
+  } catch (error) {
+    
+  }
+}

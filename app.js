@@ -19,7 +19,7 @@ app.use(express.json());
 
 // route define
 app.use("/user", userRoute);
-app.use("/product", productRoute);
+app.use("/", productRoute);
 
 app.listen(port, () => {
   console.log(`server connected successfully at ${port}`);

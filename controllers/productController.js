@@ -1,5 +1,6 @@
 import { uploadFile } from "../helpers/upload.js";
-import { productService } from "../services/productService.js";
+import ProductModel from "../model/productModel.js";
+import { getProductByIdService, getProductService, productService } from "../services/productService.js";
 
 export const CreateProduct = async (req, res) => {
   try {
@@ -35,3 +36,35 @@ export const CreateProduct = async (req, res) => {
     }
   }
 };
+
+export const getProductControl =async (req,res)=>{
+  try {
+    const getProduct = await getProductService()
+    if (!getProduct) {
+      res
+        .status(500)
+        .send({ status: "error", message: "Error in getting products" });
+    }
+    res.status(200).send({success:true , products: getProduct });
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export const getProductById = async (req,res)=>{
+  try {
+    const id = req.params.id
+      const product = await getProductByIdService(id)
+    if (!product) {
+       res
+         .status(500)
+         .send({
+           status: "error",
+           message: "Product not found for the given ID:",
+         });
+    }
+    res.status(200).send({status: success , product : product})
+  } catch (error) {
+    console.log(error)
+  }
+}

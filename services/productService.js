@@ -48,9 +48,17 @@ export const getProductService =async ()=>{
 export const getProductByIdService = async (_id)=>{
   try {
     const product = await ProductModel.findById(_id)
-
+    
     return product
   } catch (error) {
     
   }
 }
+
+export const deleteProductByIdService = async (_id) => {
+  try {
+    const product = await ProductModel.findByIdAndDelete(_id);
+
+    return product;
+  } catch (error) {}
+};

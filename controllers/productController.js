@@ -1,25 +1,30 @@
 import { uploadFile } from "../helpers/upload.js";
 import ProductModel from "../model/productModel.js";
-import { getProductByIdService, getProductService, productService } from "../services/productService.js";
+import {
+  deleteProductByIdService,
+  getProductByIdService,
+  getProductService,
+  productService,
+} from "../services/productService.js";
 
 export const CreateProduct = async (req, res) => {
   try {
-    if (!req.files || req.files.length === 0) {
+    if (req.files.length === 0) {
       return res.status(400).send({ message: "No files uploaded" });
     }
-    if (!req.body || Object.keys(req.body).length === 0) {
+    if (Object.keys(req.body).length === 0) {
       return res
         .status(400)
         .send({ status: false, message: "Missing product details" });
     }
-    console.log('req files ',req.files)
+    console.log("req files ", req.files);
     const productImage = await Promise.all(
       req.files.map((file) => uploadFile(file.path))
     );
     const imageurl = productImage.map((image) => {
       return image.url;
     });
-    console.log('image url',imageurl);
+    console.log("image url", imageurl);
 
     const status = await productService(req.body, imageurl);
 
@@ -37,34 +42,48 @@ export const CreateProduct = async (req, res) => {
   }
 };
 
-export const getProductControl =async (req,res)=>{
+export const getProductControl = async (req, res) => {
   try {
-    const getProduct = await getProductService()
+    const getProduct = await getProductService();
     if (!getProduct) {
       res
         .status(500)
         .send({ status: "error", message: "Error in getting products" });
     }
-    res.status(200).send({success:true , products: getProduct });
+    res.status(200).send({ success: true, products: getProduct });
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
-}
+};
 
-export const getProductById = async (req,res)=>{
+export const getProductById = async (req, res) => {
   try {
-    const id = req.params.id
-      const product = await getProductByIdService(id)
+    const id = req.params.id;
+    const product = await getProductByIdService(id);
     if (!product) {
-       res
-         .status(500)
-         .send({
-           status: "error",
-           message: "Product not found for the given ID:",
-         });
+      return res.status(500).send({
+        status: "error",
+        message: `Product not found for the given ID: ${id}`,
+      });
     }
-    res.status(200).send({status: success , product : product})
+    return res.status(200).send({ status: true, product: product });
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
-}
+};
+
+export const deleteProductById = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const product = await deleteProductByIdService(id);
+    if (!product) {
+      return res.status(500).send({
+        status: "error",
+        message: `Product not delete for the given ID: ${id}`,
+      });
+    }
+    return res.status(200).send({ status: true, message: "Product Delete" });
+  } catch (error) {
+    console.log(error);
+  }
+};

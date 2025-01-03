@@ -8,12 +8,12 @@ dotenv.config();
 const port = process.env.PORT;
 const app = express();
 const db_url = process.env.DB_URL;
-const db_name = process.env.DB_NAME;
+
 
 app.use(cors());
 
 // connect database
-connectDB(db_url, db_name);
+connectDB(db_url);
 
 app.use(express.json());
 
